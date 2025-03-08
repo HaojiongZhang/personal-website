@@ -11,7 +11,7 @@ interface ContactItemProps {
 }
 
 const ContactItem = ({ icon, title, value, href }: ContactItemProps) => (
-  <div className="flex items-start">
+  <div className="flex items-start mb-6">
     <div className="mr-3 mt-1 text-primary">
       {icon}
     </div>
@@ -69,15 +69,7 @@ const Contact = () => {
       </div>
       
       <div className="container mx-auto px-6 md:px-12">
-        <div className="text-center mb-16 max-w-2xl mx-auto">
-          <div className="mb-3 animate-fade-in-up">
-            <div className="inline-block">
-              <span className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-secondary text-secondary-foreground">
-                Contact
-              </span>
-            </div>
-          </div>
-          
+        <div className="text-center mb-12 max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 leading-tight tracking-tight animate-fade-in-up">
             Let's work together
           </h2>
@@ -87,9 +79,10 @@ const Contact = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form - Left Side */}
           <div className="animate-fade-in-up">
-            <div className="glassmorphism rounded-2xl p-8 h-full">
+            <div className="glassmorphism rounded-2xl p-8">
               <h3 className="text-xl font-medium mb-6">Send me a message</h3>
               
               <form onSubmit={handleSubmit}>
@@ -183,34 +176,33 @@ const Contact = () => {
             </div>
           </div>
           
+          {/* Contact Information - Right Side */}
           <div className="animate-fade-in-up delay-[200ms]">
             <div className="glassmorphism rounded-2xl p-8 h-full">
-              <h3 className="text-xl font-medium mb-6">Contact information</h3>
+              <h3 className="text-xl font-medium mb-8">Contact information</h3>
               
-              <div className="space-y-8 mb-10">
-                <ContactItem
-                  icon={<Mail size={18} />}
-                  title="Email"
-                  value="hello@example.com"
-                  href="mailto:hello@example.com"
-                />
-                
-                <ContactItem
-                  icon={<Phone size={18} />}
-                  title="Phone"
-                  value="+1 (555) 123-4567"
-                  href="tel:+15551234567"
-                />
-                
-                <ContactItem
-                  icon={<MapPin size={18} />}
-                  title="Location"
-                  value="San Francisco, CA"
-                />
-              </div>
+              <ContactItem
+                icon={<Mail size={20} />}
+                title="Email"
+                value="hello@example.com"
+                href="mailto:hello@example.com"
+              />
               
-              <div>
-                <h3 className="text-xl font-medium mb-4">Follow me</h3>
+              <ContactItem
+                icon={<Phone size={20} />}
+                title="Phone"
+                value="+1 (555) 123-4567"
+                href="tel:+15551234567"
+              />
+              
+              <ContactItem
+                icon={<MapPin size={20} />}
+                title="Location"
+                value="San Francisco, CA"
+              />
+              
+              <div className="mt-12">
+                <h4 className="text-lg font-medium mb-4">Follow me</h4>
                 <div className="flex space-x-4">
                   {['Github', 'Twitter', 'LinkedIn', 'Instagram'].map((social, i) => (
                     <a
@@ -223,7 +215,6 @@ const Contact = () => {
                       )}
                       aria-label={social}
                     >
-                      {/* This would be replaced with actual social icons */}
                       <span className="text-xs">{social.charAt(0)}</span>
                     </a>
                   ))}
