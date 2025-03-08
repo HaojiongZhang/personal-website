@@ -15,7 +15,7 @@ const navItems: NavItem[] = [
   { name: 'Home', href: '/#home', isExternal: false },
   { name: 'About', href: '/#about', isExternal: false },
   { name: 'Projects', href: '/#projects', isExternal: false },
-  { name: 'Contact', href: '/#contact', isExternal: false },
+  { name: 'Experience', href: '/#experience', isExternal: false },
   { name: 'ChessBot', href: '/chessbot', isExternal: false, icon: <Bot size={16} className="mr-1" /> },
 ];
 
