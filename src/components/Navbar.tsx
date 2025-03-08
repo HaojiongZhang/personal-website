@@ -1,10 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { Bot } from 'lucide-react';
 
 interface NavItem {
   name: string;
   href: string;
+  icon?: React.ReactNode;
 }
 
 const navItems: NavItem[] = [
@@ -12,6 +14,7 @@ const navItems: NavItem[] = [
   { name: 'About', href: '#about' },
   { name: 'Projects', href: '#projects' },
   { name: 'Contact', href: '#contact' },
+  { name: 'ChessBot', href: '/chessbot', icon: <Bot size={16} className="mr-1" /> },
 ];
 
 const Navbar = () => {
@@ -70,14 +73,17 @@ const Navbar = () => {
               href={item.href}
               onClick={() => handleNavItemClick(item.href)}
               className={cn(
-                "text-sm font-medium transition-all duration-200 hover:text-primary relative py-2",
-                activeSection === item.href.substring(1) 
+                "text-sm font-medium transition-all duration-200 hover:text-primary relative py-2 flex items-center",
+                (activeSection === item.href.substring(1) && item.href.startsWith('#')) || 
+                (item.href === '/chessbot' && window.location.pathname === '/chessbot')
                   ? "text-primary" 
                   : "text-muted-foreground"
               )}
             >
+              {item.icon}
               {item.name}
-              {activeSection === item.href.substring(1) && (
+              {((activeSection === item.href.substring(1) && item.href.startsWith('#')) || 
+                (item.href === '/chessbot' && window.location.pathname === '/chessbot')) && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full" />
               )}
             </a>
@@ -128,12 +134,14 @@ const Navbar = () => {
                 href={item.href}
                 onClick={() => handleNavItemClick(item.href)}
                 className={cn(
-                  "text-sm font-medium transition-all py-2",
-                  activeSection === item.href.substring(1) 
+                  "text-sm font-medium transition-all py-2 flex items-center",
+                  (activeSection === item.href.substring(1) && item.href.startsWith('#')) || 
+                  (item.href === '/chessbot' && window.location.pathname === '/chessbot')
                     ? "text-primary" 
                     : "text-muted-foreground"
                 )}
               >
+                {item.icon}
                 {item.name}
               </a>
             ))}
