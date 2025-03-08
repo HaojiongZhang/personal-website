@@ -1,8 +1,8 @@
-
-import { useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { Bot } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { Bot } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
 interface NavItem {
   name: string;
@@ -12,42 +12,49 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: 'Home', href: '/#home', isExternal: false },
-  { name: 'About', href: '/#about', isExternal: false },
-  { name: 'Projects', href: '/#projects', isExternal: false },
-  { name: 'Experience', href: '/#experience', isExternal: false },
-  { name: 'ChessBot', href: '/chessbot', isExternal: false, icon: <Bot size={16} className="mr-1" /> },
+  { name: "Home", href: "/#home", isExternal: false },
+  { name: "Projects", href: "/#projects", isExternal: false },
+  { name: "Experience", href: "/#experience", isExternal: false },
+  {
+    name: "ChessBot",
+    href: "/chessbot",
+    isExternal: false,
+    icon: <Bot size={16} className="mr-1" />,
+  },
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      
+
       // Only find active section on homepage
-      if (location.pathname === '/') {
-        const sections = document.querySelectorAll('section[id]');
+      if (location.pathname === "/") {
+        const sections = document.querySelectorAll("section[id]");
         const scrollPosition = window.scrollY + 100;
 
-        sections.forEach(section => {
+        sections.forEach((section) => {
           const sectionTop = (section as HTMLElement).offsetTop;
           const sectionHeight = (section as HTMLElement).offsetHeight;
-          const sectionId = section.getAttribute('id') as string;
-          
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          const sectionId = section.getAttribute("id") as string;
+
+          if (
+            scrollPosition >= sectionTop &&
+            scrollPosition < sectionTop + sectionHeight
+          ) {
             setActiveSection(sectionId);
           }
         });
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [location.pathname]);
 
   const handleNavItemClick = () => {
@@ -55,22 +62,25 @@ const Navbar = () => {
   };
 
   const isActive = (item: NavItem) => {
-    if (item.href.startsWith('#') || item.href.startsWith('/#')) {
-      return activeSection === item.href.replace('/#', '').replace('#', '') && location.pathname === '/';
+    if (item.href.startsWith("#") || item.href.startsWith("/#")) {
+      return (
+        activeSection === item.href.replace("/#", "").replace("#", "") &&
+        location.pathname === "/"
+      );
     }
     return location.pathname === item.href;
-  }
+  };
 
   return (
-    <header 
+    <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 py-5 transition-all duration-300 ease-in-out",
         scrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : "bg-transparent"
       )}
     >
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="font-medium text-lg tracking-tight"
           aria-label="Home"
         >
@@ -79,7 +89,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          {navItems.map((item) => (
+          {navItems.map((item) =>
             item.isExternal ? (
               <a
                 key={item.name}
@@ -99,7 +109,7 @@ const Navbar = () => {
                 )}
               </a>
             ) : (
-              <Link
+              <HashLink
                 key={item.name}
                 to={item.href}
                 onClick={handleNavItemClick}
@@ -107,15 +117,16 @@ const Navbar = () => {
                   "text-sm font-medium transition-all duration-200 hover:text-primary relative py-2 flex items-center",
                   isActive(item) ? "text-primary" : "text-muted-foreground"
                 )}
+                smooth
               >
                 {item.icon}
                 {item.name}
                 {isActive(item) && (
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full" />
                 )}
-              </Link>
+              </HashLink>
             )
-          ))}
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -125,19 +136,19 @@ const Navbar = () => {
           aria-label="Toggle menu"
         >
           <div className="relative w-6 h-5">
-            <span 
+            <span
               className={cn(
                 "absolute w-6 h-0.5 bg-foreground rounded-full transition-all duration-300 ease-in-out",
                 mobileMenuOpen ? "top-2 rotate-45" : "top-0"
               )}
             />
-            <span 
+            <span
               className={cn(
                 "absolute w-6 h-0.5 bg-foreground rounded-full transition-all duration-300 ease-in-out",
                 mobileMenuOpen ? "opacity-0" : "top-2 opacity-100"
               )}
             />
-            <span 
+            <span
               className={cn(
                 "absolute w-6 h-0.5 bg-foreground rounded-full transition-all duration-300 ease-in-out",
                 mobileMenuOpen ? "top-2 -rotate-45" : "top-4"
@@ -148,15 +159,17 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div 
+      <div
         className={cn(
           "md:hidden absolute w-full bg-white/95 backdrop-blur-md transition-all duration-300 ease-in-out border-b border-gray-100",
-          mobileMenuOpen ? "max-h-64 py-5" : "max-h-0 py-0 overflow-hidden border-none"
+          mobileMenuOpen
+            ? "max-h-64 py-5"
+            : "max-h-0 py-0 overflow-hidden border-none"
         )}
       >
         <div className="container mx-auto px-6">
           <nav className="flex flex-col space-y-4">
-            {navItems.map((item) => (
+            {navItems.map((item) =>
               item.isExternal ? (
                 <a
                   key={item.name}
@@ -173,7 +186,7 @@ const Navbar = () => {
                   {item.name}
                 </a>
               ) : (
-                <Link
+                <HashLink
                   key={item.name}
                   to={item.href}
                   onClick={handleNavItemClick}
@@ -181,12 +194,13 @@ const Navbar = () => {
                     "text-sm font-medium transition-all py-2 flex items-center",
                     isActive(item) ? "text-primary" : "text-muted-foreground"
                   )}
+                  smooth
                 >
                   {item.icon}
                   {item.name}
-                </Link>
+                </HashLink>
               )
-            ))}
+            )}
           </nav>
         </div>
       </div>
